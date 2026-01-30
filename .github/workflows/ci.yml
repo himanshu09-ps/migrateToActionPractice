@@ -1,4 +1,4 @@
-name: Java CI Pipeline
+name: Docker CI Pipeline
 
 on:
   push:
@@ -6,32 +6,22 @@ on:
   pull_request:
 
 jobs:
-  build-test-deliver:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Java 21
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '21'
-          cache: maven
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-      - name: Build (skip tests)
-        run: mvn -B -DskipTests clean package
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login \
+             -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Run Tests
-        run: mvn test
+      - name: Build Docker image
+        run: docker build -t Himanshu1209/my-app-practMig:${{ github.sha }} .
 
-      - name: Upload JUnit Test Reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: junit-reports
-          path: target/surefire-reports/*.xml
-
-      - name: Deliver
-        run: ./jenkins/scripts/deliver.sh
+      - name: Push Docker image
+        run: docker push Himanshu1209/my-app-practMig:${{ github.sha }}
