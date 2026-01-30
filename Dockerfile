@@ -1,23 +1,22 @@
 # syntax=docker/dockerfile:1
 
-FROM eclipse-temurin:21-jdk-jammy AS build
+# -------- Build stage --------
+FROM maven:3.9.9-eclipse-temurin-21 AS build
 
 WORKDIR /build
 
-# Copy pom.xml first (cache benefit)
+# Copy pom.xml first for cache
 COPY pom.xml .
 
-# Download dependencies
 RUN mvn dependency:go-offline -B
 
-# Copy source code
+# Copy source
 COPY src ./src
 
 # Build jar
 RUN mvn clean package -DskipTests
 
-# ---------------- Runtime stage ----------------
-
+# -------- Runtime stage --------
 FROM eclipse-temurin:21-jre-jammy
 
 WORKDIR /app
