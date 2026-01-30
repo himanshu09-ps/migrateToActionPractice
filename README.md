@@ -1,4 +1,4 @@
-# simple-java-maven-app
+# simple-java-maven-app.
 
 This repository is for the
 [Build a Java app with Maven](https://jenkins.io/doc/tutorials/build-a-java-app-with-maven/)
@@ -12,4 +12,4 @@ JUnit XML report.
 The `jenkins` directory contains an example of the `Jenkinsfile` (i.e. Pipeline)
 you'll be creating yourself during the tutorial and the `jenkins/scripts` subdirectory
 contains a shell script with commands that are executed when Jenkins processes
-the "Deliver" stage of your Pipeline.
+the "Deliver" stage of your Pipeline ok .
