@@ -18,12 +18,19 @@ jobs:
 
       - name: Login to Docker Hub
         run: |
-          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login \
-            -u "${{ secrets.DOCKER_USERNAME }}" 
-            --password-stdin
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login docker.io \
+           -u "${{ secrets.DOCKER_USERNAME }}" \
+           --password-stdin
+
 
       - name: Build Docker image
         run: docker build -t Himanshu1209/my-app-practMig:${{ github.sha }} .
 
       - name: Push Docker image
         run: docker push Himanshu1209/my-app-practMig:${{ github.sha }}
+
+      - name: Debug secrets (safe)
+        run: |
+         if [ -z "${{ secrets.DOCKER_USERNAME }}" ]; then echo "USERNAME EMPTY"; else echo "USERNAME OK"; fi
+         if [ -z "${{ secrets.DOCKER_PASSWORD }}" ]; then echo "PASSWORD EMPTY"; else echo "PASSWORD OK"; fi
+
