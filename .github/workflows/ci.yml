@@ -24,10 +24,10 @@ jobs:
 
 
       - name: Build Docker image
-        run: docker build -t Himanshu1209/my-app-practMig:${{ github.sha }} .
+        run: docker build -t himanshu1209/my-app-practMig:${{ github.sha }} .
 
       - name: Push Docker image
-        run: docker push Himanshu1209/my-app-practMig:${{ github.sha }}
+        run: docker push himanshu1209/my-app-practMig:${{ github.sha }}
 
       - name: Debug secrets (safe)
         run: |
